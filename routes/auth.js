@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     if (!user) return res.status(400).send('Invalid email or password.');
 
     // Validate if the user entered the correct password
-    // This method hashes the typed password with salt to compare with the password on file
+    // This method hashes the client provided password with salt to compare with the password on file
     const validPassword = await bcrypt.compare(req.body.password, user.password);
 
     // Generate a jsonWebToken to be sent back to the client

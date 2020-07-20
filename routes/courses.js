@@ -38,7 +38,6 @@ router.post('/', auth, async (req, res) => {
 
         course = await course.save();
         res.send(course)
-    
 });
 
 // UPDATE REQUEST

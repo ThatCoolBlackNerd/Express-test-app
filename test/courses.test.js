@@ -84,5 +84,53 @@ describe('/api/courses', () => {
 
          expect(res.status).toBe(400);
         });
+
+        it('should return a 400 if course name is more than 15 characters', async () => {
+            // Create a Auth Token
+            const token = new User().generateAuthToken();
+
+            // Dynamically generate an Array with 16 characters
+            const name = new Array(17).join('a');
+
+            // Create a post
+         const res = await request(server)
+            .post('/api/courses')
+            .set('x-auth-token', token)
+            .send({ name: name});
+
+         expect(res.status).toBe(400);
+        });
+
+        
+        it('should save course if it is valid', async () => {
+            // Create a Auth Token
+            const token = new User().generateAuthToken();
+
+            // Create a post
+            const res = await request(server)
+                .post('/api/courses')
+                .set('x-auth-token', token)
+                .send({ name: 'course1'});
+            
+            // Find the newly created course
+            const course = await Course.find({ name: 'course1'});
+
+            expect(course).not.toBeNull();
+        });
+
+        it('should save course if it is valid', async () => {
+            // Create a Auth Token
+            const token = new User().generateAuthToken();
+
+            // Create a post
+            const res = await request(server)
+                .post('/api/courses')
+                .set('x-auth-token', token)
+                .send({ name: 'course1'});
+            
+            // Expect the response to have an ID property
+            expect(res.body).toHaveProperty('_id');
+            expect(res.body).toHaveProperty('name', 'course1');
+        });
     });
 });

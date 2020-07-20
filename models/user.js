@@ -29,8 +29,10 @@ const userSchema = new mongoose.Schema({
 
 // Adds JWT Generation as a method to our user object
 userSchema.methods.generateAuthToken = function () {
+    // jwt.sign({payload}, secretKey)
     const token = jwt.sign({ _id: this._id, isAdmin: this.isAdmin }, config.get('secretKey'));
-
+    
+    // Return newly created token when generateAuthToken method is called
     return token;
 }
 
